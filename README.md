@@ -5,6 +5,7 @@
 There is a board of apples.  
 You can make rectangular selections to clear apples.  
 You can only pop the apples if the selected apples **sum to exactly 10**.  
+You get points for the number of apples popped.
 
 Try the game here: [Fruit Box Game](https://en.gamesaien.com/game/fruit_box/)
 
@@ -35,9 +36,9 @@ That marked the beginning of the **Apple Destroyer** endeavor.
 
 ---
 
-## 🛠 Project
+## Project
 
-### 🔍 Attempt 1: Brute Force
+### Attempt 1: Brute Force
 
 My first approach was to try **all combinations of moves**, selecting the sequence that leads to the highest score.
 
@@ -68,33 +69,35 @@ I pivoted to using a **Monte Carlo Tree Search algorithm with heuristics**.
 A naive heuristic would be:
 - **Total score so far** — but this increases with depth, so early branches dominate.
 
-Instead, I thought about **bad moves**:
+Instead, I thought about possible **bad moves**:
 
 Example of a bad move:
 ```
 [1 1 1 1 1 1 1 1 1 1]
 ```
 
-Clearing this wastes valuable 1's, which are wild cards.
+While clearing this seems to be great, after all, you can get 10 points for a single move. However, clearing this wastes valuable 1's, which are like wild cards.
 - 9's can *only* be cleared with 1's.
 - So, using up all 1's makes it impossible to clear 9's later.
 
 This applies similarly (but less severely) to 2's, 3's, and 4's.
 
-#### Heuristic Attempts
+#### Mean-Based Heuristic Attempt
 
-1. **Mean board value** — worked okay.  
-   Achieved a score of **135**.
+This worked okay. I was able to achieve a score of **135**, but I noticed the following trend:
 
-2. But... this skews toward:
-   - High values → early terminal boards → breadth-first behavior.
-   - Low values (e.g. treating empty spaces as 0's) → depth-first behavior.
+- Mean values excluding empty cells → favors early depth boards → breadth-first behavior.
 
-3. **# of valid moves** — also biased toward early game.
+- Mean values including empty cells (treating empty spaces as 0's) → favors terminal boards → depth-first behavior.
 
-4. **# of valid moves + depth** — worked best!  
-   Final result: **156**
+#### Breakthrough
+I was considering some other heuristics, and I was thinking about either maximizing surface area, or maximizing the number of possible moves. On a whim, I chose number of valid moves + depth.  
 
+```
+# of valid moves + depth
+```
+This got me a score of 156!
+ 
 Tried other heuristics, but none came close to 156.
 
 ---
