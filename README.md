@@ -7,6 +7,8 @@ You can make rectangular selections to clear apples.
 You can only pop the apples if the selected apples **sum to exactly 10**.  
 You get points for the number of apples popped.
 
+![selecting apples](https://en.gamesaien.com/game/fruit_box/zu01.png)
+
 Try the game here: [Fruit Box Game](https://en.gamesaien.com/game/fruit_box/)
 
 ---
